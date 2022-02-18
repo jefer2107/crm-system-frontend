@@ -3,6 +3,7 @@ import EditClientList from "./edits/editClientList";
 import Header from "./header";
 import Home from "./home";
 import ClientList from "./lists/clientList";
+import ProjectList from "./lists/projectList";
 
 
 export default function RoutesController(){
@@ -13,6 +14,7 @@ export default function RoutesController(){
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/client-list" element={<ClientList />} />
                 <Route exact path="/edit-client/:id" element={<EditClientList />} />
+                <Route exact path="/project-list" element={<ProjectList />} />
             </Routes>
         </BrowserRouter>
     )

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 
 export default function ClientList(){
     const [clients, setClients] = useState([])
+    const [campaigns, setCampaigns] = useState([])
     const [test, setTest] = useState([])
     const [message, setMessage] = useState()
     let navigate = useNavigate()
@@ -25,11 +26,36 @@ export default function ClientList(){
     },[])
 
     useEffect(()=>{
+        axios.get(`http://localhost:3001/campaigns`)
+            .then((x)=>{
+                setCampaigns(x.data)
+            })
+    },[])
+
+    useEffect(()=>{
         axios.get(`http://localhost:3001/clients/join/campaigns/idCampaigns/getJoinCampaigns`)
             .then((x)=>{
                 setTest(x.data)
             })
     },[])
+
+    const getCampaigns = (foreignkey=null)=>{
+        let newCampaigns;
+        if(campaigns.length > 0){
+            if(foreignkey===null){
+                newCampaigns = "Não tem campanha"
+                return newCampaigns
+
+            }else{
+                const findCampaigns = campaigns.find(x=> x.id === foreignkey)
+
+                newCampaigns = findCampaigns
+                return newCampaigns.name
+            } 
+            
+        }
+        
+    }
 
 
     const removeClient = (id)=>{
@@ -54,7 +80,7 @@ export default function ClientList(){
 
     return(
         <div className="container-fluid list">
-            {JSON.stringify(test)}
+            {JSON.stringify(clients)}
             <h3 className='text-center'>Lista de Clientes</h3>
             <p className='text-center'>{message}</p>
             <table className="container">
@@ -73,14 +99,14 @@ export default function ClientList(){
                 <tbody>
                     {clients.map((x)=>{
                         return(
-                            <tr>
+                            <tr key={x.id}>
                                 <td>{x.id}</td>
                                 <td>{moment(x.date).format("DD/MM/YY")}</td>
                                 <td>{x.name}</td>
                                 <td>{x.address}</td>
                                 <td>{x.email}</td>
                                 <td>{x.telephone}</td>
-                                <td>{x.idCampaigns}</td>
+                                <td>{getCampaigns(x.idCampaigns)}</td>
                                 <td>
                                     <button onClick={()=> editClient(x.id)} type='button' className='btn btn-primary'>Editar</button>
                                     <button onClick={()=> removeClient(x.id)} type='button' className='btn btn-danger'>Excluir</button>
