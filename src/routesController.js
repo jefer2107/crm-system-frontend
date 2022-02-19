@@ -16,7 +16,7 @@ export default function RoutesController(){
                 <Route exact path="/client-list" element={<ClientList />} />
                 <Route exact path="/edit-client/:id" element={<EditClientList />} />
                 <Route exact path="/project-list" element={<ProjectList />} />
-                <Route exact path="/edit-project/:id" element={<EditProjectList />} />
+                <Route exact path="/edit-projects/:id" element={<EditProjectList />} />
             </Routes>
         </BrowserRouter>
     )

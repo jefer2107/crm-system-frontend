@@ -1,11 +1,13 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import moment from "moment"
+import { useNavigate } from "react-router-dom"
 
 
 export default function ProjectList(){
     const [projects, setProjects] = useState([])
     const [message, setMessage] = useState()
+    const navigate = useNavigate()
 
     useEffect(()=>{
         axios.get(`http://localhost:3001/projects`)
@@ -17,6 +19,10 @@ export default function ProjectList(){
                 console.log(error)
             })
     },[])
+
+    const editProject = (id)=>{
+        navigate(`/edit-projects/${id}`)
+    }
 
     return(
         <div className="container-fluid list">
@@ -42,7 +48,9 @@ export default function ProjectList(){
                                 <td> {x.name} </td>
                                 <td> {x.numberSprint} </td>
                                 <td> {x.price} </td>
-                                <td> <button className="btn btn-primary">Editar</button> <button className="btn btn-danger">Remover</button> </td>
+                                <td> <button onClick={()=>editProject(x.id)} className="btn btn-primary">Editar</button>
+                                     <button className="btn btn-danger">Remover</button>
+                                </td>
                             </tr>
                         )
                     })}
