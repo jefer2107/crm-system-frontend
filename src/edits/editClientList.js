@@ -23,7 +23,7 @@ export default function EditClientList(){
     }
 
     const saveClient = (event)=>{
-        axios.post(`http://localhost:3001/clients`,client)
+        axios.put(`http://localhost:3001/clients/${id}/changeAll`,client)
             .then(()=>{
                 navigate("/client-list")
             })
