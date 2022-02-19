@@ -24,6 +24,22 @@ export default function ProjectList(){
         navigate(`/edit-projects/${id}`)
     }
 
+    const removeProject = (id)=>{
+        axios.delete(`http://localhost:3001/projects/${id}/removeItem`)
+            .then(()=>{
+                setProjects((state)=>{
+                    const newProjects = [...state]
+                    const itemToBeRemove = projects.findIndex(x=> x.id==id)
+                    newProjects.splice(itemToBeRemove, 1)
+
+                    return newProjects
+                })
+                .catch((error)=>{
+                    setMessage(error)
+                })
+            })
+    }
+
     return(
         <div className="container-fluid list">
             <h3 className="text-center">Lista de Projetos</h3>
@@ -49,7 +65,7 @@ export default function ProjectList(){
                                 <td> {x.numberSprint} </td>
                                 <td> {x.price} </td>
                                 <td> <button onClick={()=>editProject(x.id)} className="btn btn-primary">Editar</button>
-                                     <button className="btn btn-danger">Remover</button>
+                                     <button onClick={()=>removeProject(x.id)} className="btn btn-danger">Remover</button>
                                 </td>
                             </tr>
                         )
